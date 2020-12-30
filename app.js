@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const placesRoutes = require('./routes/places-routes');
 const usersRoutes = require('./routes/users-routes');
@@ -27,4 +28,11 @@ app.use((error, req, res, next) => {
 });
 //if any use have any error then this error will run.
 
-app.listen(5000);
+mongoose.connect('mongodb+srv://robin:robin123456@cluster0.sobnu.mongodb.net/places?retryWrites=true&w=majority')
+.then(()=>{
+  console.log("Connected!!!");
+  app.listen(5000);
+})
+.catch((error) => {
+  console.log("Error:"+error);
+});
