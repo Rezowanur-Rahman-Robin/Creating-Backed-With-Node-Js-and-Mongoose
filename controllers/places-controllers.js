@@ -67,7 +67,7 @@ const getPlacesByUserId =async (req, res, next) => {
     );
   }
 
-  res.json({ places : userWithPlaces.map(place => place.toObject({ getters : true}))});
+  res.json({ places: userWithPlaces.places.map(place => place.toObject({ getters: true })) });
   // find method return an array.that's why we have to use the map first.
 
 };
@@ -93,7 +93,7 @@ const createPlace = async (req, res, next) => {
     description,
     address,
     location:coordinates,
-    image:'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Fpremium-photo%2Fimage-human-brain_5013322.htm&psig=AOvVaw3UOaPwZeyaG5LQoYiAtizc&ust=1609428713774000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCPjXj6mD9u0CFQAAAAAdAAAAABAD',
+    image:'https://pbs.twimg.com/media/Dlyq2dDX0AIXtKI.jpg',
     creator
   });
 
@@ -136,21 +136,25 @@ const createPlace = async (req, res, next) => {
   //201 is a code for posting new data
 };
 
-const updatePlace =async (req, res, next) => {
+
+const updatePlace = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return next(  HttpError('Invalid inputs passed, please check your data.', 422));
+    return next(
+      new HttpError('Invalid inputs passed, please check your data.', 422)
+    );
   }
 
   const { title, description } = req.body;
   const placeId = req.params.pid;
 
   let place;
-  try{
+  try {
     place = await Place.findById(placeId);
-  }catch(err){
+  } catch (err) {
     const error = new HttpError(
-      'Something went wrong, could not update place.',500
+      'Something went wrong, could not update place.',
+      500
     );
     return next(error);
   }
@@ -158,17 +162,19 @@ const updatePlace =async (req, res, next) => {
   place.title = title;
   place.description = description;
 
-  try{
+  try {
     await place.save();
-  }catch(err){
+  } catch (err) {
     const error = new HttpError(
-      'Something went wrong, could not update place.',500
+      'Something went wrong, could not update place.',
+      500
     );
     return next(error);
   }
 
-  res.status(200).json({ place: place.toObject({getters : true}) });
+  res.status(200).json({ place: place.toObject({ getters: true }) });
 };
+
 
 const deletePlace =async (req, res, next) => {
   const placeId = req.params.pid;

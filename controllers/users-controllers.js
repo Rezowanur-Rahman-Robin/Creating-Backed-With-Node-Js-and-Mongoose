@@ -79,7 +79,7 @@ if(!existingUser || existingUser.password!== password){
   return next(new HttpError('Invalid cresentials,could not log you in.',401));
 }
 
-  res.json({message: 'Logged in!'});
+  res.json({message: 'Logged in!',user: existingUser.toObject({getters:true})});
 };
 
 exports.getUsers = getUsers;

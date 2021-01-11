@@ -10,6 +10,16 @@ const app = express();
 
 app.use(bodyParser.json()); //for getting the post request data
 
+
+app.use((req,res,next)=>{
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin,X-Requested-with,Content-Type,Accept,Authorization');
+  res.setHeader('Access-Control-Allow-Methods','GET,POST,PATCH,DELETE');
+  next();
+});
+
+
+
 app.use('/api/places', placesRoutes); // => /api/places...
 app.use('/api/users', usersRoutes);
 
@@ -28,7 +38,7 @@ app.use((error, req, res, next) => {
 });
 //if any use have any error then this error will run.
 
-mongoose.connect('mongodb+srv://robin:robin123456@cluster0.sobnu.mongodb.net/places?retryWrites=true&w=majority')
+mongoose.connect('mongodb+srv://robin:robin123456@cluster0.sobnu.mongodb.net/mern?retryWrites=true&w=majority')
 .then(()=>{
   console.log("Connected!!!");
   app.listen(5000);
