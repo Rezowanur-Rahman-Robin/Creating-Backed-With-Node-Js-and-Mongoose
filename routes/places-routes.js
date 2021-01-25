@@ -2,6 +2,7 @@ const express = require('express');
 const { check } = require('express-validator');
 
 const placesControllers = require('../controllers/places-controllers');
+const checkAuth = require('../middleware/check-auth');
 const fileUpload = require('../middleware/file-upload');
 
 const router = express.Router();
@@ -17,6 +18,9 @@ karon tokhn..
 
 bt akhane kono problem hosse na.karon .user/:uid dewa ase
 */
+
+
+router.use(checkAuth);
 
 router.post(
   '/',
