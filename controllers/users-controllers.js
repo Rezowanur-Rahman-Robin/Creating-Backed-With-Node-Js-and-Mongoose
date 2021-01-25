@@ -26,6 +26,7 @@ const getUsers =async (req, res, next) => {
 const signup =async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+
     return next(HttpError('Invalid inputs passed, please check your data.', 422)) ;
   }
   const { name, email, password } = req.body;
@@ -46,7 +47,7 @@ const signup =async (req, res, next) => {
  const createdUser = new User({
    name,
    email,
-   image:'https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png',
+   image:req.file.path,
    password,
    places: []
  });

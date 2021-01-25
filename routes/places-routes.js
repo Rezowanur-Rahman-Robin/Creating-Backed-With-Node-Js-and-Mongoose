@@ -2,6 +2,7 @@ const express = require('express');
 const { check } = require('express-validator');
 
 const placesControllers = require('../controllers/places-controllers');
+const fileUpload = require('../middleware/file-upload');
 
 const router = express.Router();
 
@@ -19,6 +20,7 @@ bt akhane kono problem hosse na.karon .user/:uid dewa ase
 
 router.post(
   '/',
+  fileUpload.single('image'),
   [
     check('title')
       .not()
